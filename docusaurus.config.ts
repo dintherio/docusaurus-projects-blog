@@ -9,12 +9,12 @@ dotenvconfig();
 const blogEnabled = Boolean(process.env.BLOG_ENABLED === 'true')
 
 const config: Config = {
-  title: 'DSO Live Demo Docs',
-  tagline: 'Dinosaurs are cool',
+  title: 'DSO Projects Blog',
+  tagline: 'In development. Check my Projects Area!',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: process.env.DEPLOYMENT_URL ?? "https://spmse.github.io",
+  url: process.env.DEPLOYMENT_URL ?? "https://dintherio.github.io/",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: process.env.BASE_URL ?? "/",
@@ -27,7 +27,14 @@ const config: Config = {
   deploymentBranch: process.env.DEPLOYMENT_BRANCH,
 
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  // onBrokenMarkdownLinks: 'warn', deprecated
+
+  // changed because onBrokenMarkdownLinks: 'warn' is deprecated
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+  },
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -45,8 +52,8 @@ const config: Config = {
           sidebarPath: './sidebars.ts',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/spmse/dev-blog-template',
+          // editUrl:
+          //   'https://github.com/spmse/dev-blog-template',
         },
         blog: blogEnabled ? 
           {
@@ -57,8 +64,8 @@ const config: Config = {
             },
             // Please change this to your repo.
             // Remove this to remove the "edit this page" links.
-            editUrl:
-              'https://github.com/spmse/dev-blog-template',
+            // editUrl:
+            //   'https://github.com/spmse/dev-blog-template',
             // Useful options to enforce blogging best practices
             onInlineTags: 'warn',
             onInlineAuthors: 'warn',
@@ -89,7 +96,7 @@ const config: Config = {
           label: 'Docs',
         },
         {
-          href: 'https://github.com/spmse/dev-blog-template',
+          href: 'https://github.com/dintherio/dso-projects-blog/tree/main',
           label: 'Github',
           position: 'right',
         },
