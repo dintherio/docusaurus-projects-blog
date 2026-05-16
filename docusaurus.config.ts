@@ -24,7 +24,7 @@ const config: Config = {
   organizationName: process.env.GITHUB_ORG, // Usually your GitHub org/user name.
   projectName: process.env.GITHUB_PROJECT, // Usually your repo name.
 
-  deploymentBranch: process.env.DEPLOYMENT_BRANCH,
+  // deploymentBranch: process.env.DEPLOYMENT_BRANCH,
 
   onBrokenLinks: 'throw',
   // onBrokenMarkdownLinks: 'warn', deprecated
@@ -96,7 +96,7 @@ const config: Config = {
           label: 'Docs',
         },
         {
-          href: 'https://github.com/dintherio/dso-projects-blog/tree/main',
+          href: 'https://github.com/dintherio/docusaurus-projects-blog',
           label: 'Github',
           position: 'right',
         },
