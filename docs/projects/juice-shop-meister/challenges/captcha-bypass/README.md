@@ -15,8 +15,8 @@ sidebar_position: 4
 - [Remediation](#remediation)
 - [Optional notes](#optional-notes)
 
-:::danger[WARNING]
-The content provided in this repository is for educational and ethical security testing purposes only. All demonstrations were performed in a controlled, local environment using the OWASP Juice Shop, a deliberately insecure web application. Unauthorized access to computing systems is illegal. The author is not responsible for any misuse of this information. Always obtain explicit permission before testing any system that you do not own.
+:::danger[WARNING]  
+The content provided in this repository is for educational and ethical security testing purposes only. All demonstrations were performed in a controlled, local environment using the OWASP Juice Shop, a deliberately insecure web application. Unauthorized access to computing systems is illegal. The author is not responsible for any misuse of this information. Always obtain explicit permission before testing any system that you do not own.  
 :::
 
 ## Vulnerability Overview: Broken Anti-Automation
